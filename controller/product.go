@@ -20,19 +20,21 @@ func NewProductController(productService *service.ProductService) *ProductContro
 
 func (c *ProductController) GetProducts(ctx *fiber.Ctx) error {
 	products, err := c.productService.GetProducts()
+	
 	if err != nil {
 		log.Println(err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Failed to get products",
 		})
+	
 	}
 	return ctx.JSON(products)
 }
 
 func (c *ProductController) GetProductByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
-
 	product, err := c.productService.GetProductByID(id)
+	
 	if err != nil {
 		log.Println(err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -45,6 +47,7 @@ func (c *ProductController) GetProductByID(ctx *fiber.Ctx) error {
 
 func (c *ProductController) CreateProduct(ctx *fiber.Ctx) error {
 	product := new(model.Product)
+	
 	if err := ctx.BodyParser(product); err != nil {
 		log.Println(err)
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -53,6 +56,7 @@ func (c *ProductController) CreateProduct(ctx *fiber.Ctx) error {
 	}
 
 	createdProduct, err := c.productService.CreateProduct(*product)
+	
 	if err != nil {
 		log.Println(err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -65,8 +69,8 @@ func (c *ProductController) CreateProduct(ctx *fiber.Ctx) error {
 
 func (c *ProductController) UpdateProduct(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
-
 	product := new(model.Product)
+	
 	if err := ctx.BodyParser(product); err != nil {
 		log.Println(err)
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -75,6 +79,7 @@ func (c *ProductController) UpdateProduct(ctx *fiber.Ctx) error {
 	}
 
 	updatedProduct, err := c.productService.UpdateProduct(id, *product)
+	
 	if err != nil {
 		log.Println(err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -87,8 +92,8 @@ func (c *ProductController) UpdateProduct(ctx *fiber.Ctx) error {
 
 func (c *ProductController) DeleteProduct(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
-
 	err := c.productService.DeleteProduct(id)
+	
 	if err != nil {
 		log.Println(err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

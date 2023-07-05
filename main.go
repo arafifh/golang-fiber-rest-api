@@ -21,11 +21,13 @@ func main() {
 
 	// Connect to MongoDB
 	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	err = client.Connect(context.Background())
+	
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,6 +45,7 @@ func main() {
 
 	// Start the server
 	err = app.Listen(":3000")
+	
 	if err != nil {
 		log.Fatal(err)
 	}
